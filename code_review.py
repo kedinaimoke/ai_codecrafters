@@ -8,7 +8,7 @@ from openai import OpenAI
 from tqdm import tqdm
 
 client = OpenAI(
-    api_key="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",
+    api_key="",
 )
 
 PROMPT_TEMPLATE = f"""Thorough code reviews should examine the change in detail and consider its integration within the codebase. 
