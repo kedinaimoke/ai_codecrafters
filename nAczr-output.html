@@ -1,0 +1,59 @@
+<html>
+<head>
+<style>
+body {
+    font-family: Roboto, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+pre {
+    white-space: pre-wrap;
+    background-color: #f6f8fa;
+    border-radius: 3px;
+    font-size: 85%;
+    line-height: 1.45;
+    overflow: auto;
+    padding: 16px;
+}
+</style>
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<div style='background-color: #333; color: #fff; padding: 20px;'><h1 style='margin: 0;'>AI code review</h1></div><h3>Diff</h3>
+<pre><code>
+    diff --git a/example.py b/example.py
+    index abcdef1..1234567 100644
+    --- a/example.py
+    +++ b/example.py
+    @@ -1,5 +1,5 @@
+    def add(a, b):
+    -    return a + b
+    +    return a * b
+    </code></pre>
+<h3>Comment</h3>
+<pre>Based on the diff provided, the changes made in the <b>`example.py`<> file are as follows:
+
+<b>```<>diff
+def add(a, b):
+-    return a + b
++    return a * b
+<b>```<>
+
+The changes involve modifying the implementation of the <b>`add`<> function. Previously, it returned the sum of <b>`a`<> and <b>`b`<> using the <b>`+`<> operator. Now, it returns the product of <b>`a`<> and <b>`b`<> using the <b>`*`<> operator.
+
+From a code review perspective, here are some observations:
+
+1. Variable Naming: The variable names <b>`a`<> and <b>`b`<> are not descriptive. Consider using more meaningful names that convey the purpose or type of data being operated on.
+
+2. Function Name: While the function is named <b>`add`<>, the recent change in the implementation suggests that it may not be accurate anymore. Renaming the function to reflect the new behavior might be more appropriate.
+
+3. Commenting: It can be useful to include comments explaining the functionality of the function, its inputs, and the expected output. This helps improve code readability and makes it easier for other developers to understand and use the code.
+
+4. Test Cases: It would be beneficial to have test cases that cover different scenarios to ensure the correctness of the function. This is especially important after making changes to the implementation.
+
+It's worth noting that the provided code review is based solely on the diff and does not consider the broader context of the codebase or any specific requirements.</pre>
+</body>
+</html>
