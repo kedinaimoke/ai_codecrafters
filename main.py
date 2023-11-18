@@ -1,6 +1,6 @@
 from code_review.code_review import (add_code_tags, generate_comment,
                          create_html_output, get_diff_changes_from_pipeline, main as code_review_main,)
-from code_test_case.code_test_case import GPTClient
+from code_test_case.code_test_case import code_test_case
 from code_debug.code_debug import run_python_code, fix_python_code, auto_debug_python
 
 def get_developer_input():
