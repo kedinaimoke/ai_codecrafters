@@ -24,21 +24,21 @@ To set up the development environment, follow these steps:
 
 2. **Create a Virtual Environment:** Creating a virtual environment isolates project dependencies from your global Python environment. Use the following command to create a virtual environment named `codecrafter`:
 
-```bash
+```
 python -m venv codecrafter
-
+```
 
 3. **Activate the Virtual Environment:** Activate the virtual environment to use its isolated Python environment:
 
-bash
+```
 codecrafter/Scripts/activate
-
+```
 
 4. **Install Project Requirements:** Install the project's required dependencies using the following command:
 
-bash
+```
 pip install -r requirements.txt
-
+```
 
 ## Development Process
 
@@ -48,9 +48,9 @@ The development process involves the following steps:
 
 2. **Unit Tests:** Run the unit tests using the following command to ensure the changes haven't introduced any regressions:
 
-bash
+```
 python -m pytest tests
-
+```
 
 3. **Code Review:** Conduct a thorough code review of your changes to ensure they meet the project's quality standards.
 
