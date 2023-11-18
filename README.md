@@ -33,14 +33,18 @@ To install CodeMentor AI as a package, follow these steps:
    For pip, firstly clone the project to your preferred directory:
    
    ```git clone https://github.com/kedinaimoke/ai_codecrafters.git```
+
+   Move into the working directory:
+   
+   ```cd ai_codecrafters```
    
    Then install the necessary dependencies:
 
    ```pip install -r requirements.txt```
 
-3. Download the CodeMentor AI package and extract it to the appropriate location.
+2. Download the CodeMentor AI package and extract it to the appropriate location.
 
-4. Import the CodeMentor AI library into your project's code.
+3. Import the CodeMentor AI library into your project's code.
 
 ### IDE Extension Installation
 
