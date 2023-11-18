@@ -1,0 +1,334 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CodeMentor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #14161a; /* Dark background color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff; /* Light text color */
+        }
+
+        header {
+            background-color: #20232a; /* Darker header background color */
+            color: #61dafb; /* Lighter header text color */
+            padding: 10px 20px; /* Increased padding for better spacing */
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Adjusted to space between the logo, links, and buttons */
+        }
+
+        .logo {
+            text-align: center;
+            margin: 20px 0;
+            margin-left: 4rem;
+            color: #61dafb; /* AI CodeMentor logo text color */
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Adjusted gap for better spacing */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            margin: 0 auto; /* Centering the links */
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #61dafb; /* AI blue text color */
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover {
+            color: #4fa3d1; /* Darker blue on link hover */
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+            margin-right: 4rem; /* Push buttons to the right */
+        }
+
+        .nav-buttons button {
+            background-color: #61dafb; /* AI blue button color */
+            color: #fff; /* Light text color on button */
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #4fa3d1; /* Darker blue on button hover */
+        }
+
+        .hero-section {
+            display: flex;
+            flex-direction: row;
+            /* align-items: flex-start; */
+            align-items: center;
+            padding: 80px 20px; /* Adjusted padding for better spacing */
+        }
+
+        .hero-text {
+            max-width: 600px;
+            color: #fff; /* Light text color on top of the image */
+            text-align: left; /* Align text to the left */
+        }
+
+        .hero-text h1 {
+            font-size: 48px; /* Adjusted font size for the big text */
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-buttons button {
+            background-color: #61dafb; /* AI blue button color */
+            color: #fff; /* Light text color on button */
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .hero-buttons button:hover {
+            background-color: #4fa3d1; /* Darker blue on button hover */
+        }
+
+        .hero-image {
+            padding: 2rem;
+            flex-grow: 1;
+            background-image: url('{% static "images/robot.png" %}');
+            background-size: cover;
+            background-position: center;
+            height: 80vh; /* Full height of the viewport */
+            width: 50rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            margin: 40px auto; /* Adjusted margin for better spacing */
+            background-color: #282c34; /* Dark form background color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(97, 218, 251, 0.2); /* AI blue shadow */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 0 0 40px rgba(97, 218, 251, 0.4); /* AI blue shadow on hover */
+        }
+
+        textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #61dafb; /* AI blue border color */
+            border-radius: 4px;
+            resize: vertical;
+            background-color: #20232a; /* Dark textarea background color */
+            color: #fff; /* Light text color in textarea */
+        }
+
+        input[type="submit"] {
+            background-color: #61dafb; /* AI blue button color */
+            color: #fff; /* Light text color on button */
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4fa3d1; /* Darker blue on button hover */
+        }
+
+        #code_review_result,
+        #code_debug_result,
+        #test_case_generation_result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #61dafb; /* AI blue border color */
+            border-radius: 4px;
+            background-color: #282c34; /* Dark result background color */
+            max-width: 600px;
+            word-wrap: break-word;
+        }
+
+        .product-info {
+            background-color: #20232a; /* Dark background color */
+            color: #fff; /* Light text color */
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .product-info h2 {
+            color: #61dafb; /* AI blue text color */
+        }
+
+        .info-section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #282c34; /* Dark result background color */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(97, 218, 251, 0.2); /* AI blue shadow */
+        }
+
+        .info-section h3 {
+            color: #61dafb; /* AI blue text color */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo">AI CodeMentor</h1>
+        <nav>
+            <!-- <div class="nav-links">
+                <a href="#">About</a>
+                <a href="#">Lessons</a>
+                <a href="#">Live Coaches</a>
+                <a href="#">Documentation</a>
+                <a href="#">Chat History</a>
+                <a href="#">Pricing</a>
+                <a href="#">Contacts</a>
+            </div>
+            <div class="nav-buttons">
+                <button>Login</button>
+                <button>Signup</button> -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+
+           <!-- Background Image -->
+        <div class="hero-image"></div>
+        
+        <div class="hero-text">
+            <h1>Learn to Code Your Way</h1>
+            <p>AI CodeMentor helps developers like you improve faster by combining unique analytics with personalized lessons (created from your code!) to make learning fun and easy.</p>
+            <div class="hero-buttons">
+                <button>Try Now</button>
+                <!-- <button>Register</button> -->
+            </div>
+        </div>
+    
+    </div>
+
+    
+
+    <!-- Project Summary Section -->
+    <div class="product-info">
+        <h2>AI CodeMentor - Revolutionizing Developer Experience</h2>
+
+        <!-- Objectives of the Software -->
+        <div class="info-section">
+            <h3>Objectives of the Software:</h3>
+            <p>
+                CodeMentor AI aims to automate repetitive and time-consuming tasks for developers,
+                providing personalized feedback on code and making AI accessible to developers of all experience levels.
+                The software's goals include reducing development time, improving software quality, and assisting developers in learning and growing.
+            </p>
+        </div>
+
+        <!-- Market Research -->
+        <div class="info-section">
+            <h3>Market Research:</h3>
+            <p>
+                In-depth market research has identified the unique selling points of CodeMentor AI,
+                including seamless integration with existing development environments, personalized feedback,
+                and accessibility to developers of all levels. This positions CodeMentor AI as a versatile tool
+                that addresses the needs of developers and enhances their coding experience.
+            </p>
+        </div>
+
+        <!-- User Stories -->
+        <!-- <div class="info-section">
+            <h3>User Stories:</h3>
+            <p>
+                <strong>Sam Tunnile:</strong> As a junior developer, I wanted CodeMentor AI to review my code for potential errors and vulnerabilities
+                so that I can learn from my mistakes and improve my coding skills and i did just that.
+            </p>
+            <p>
+                <strong>Henry Katari:</strong> As an experienced developer, I wanted CodeMentor AI to help me to debug my code more quickly and efficiently and guess what? It did!.
+            </p>
+            ... (add more user stories as needed) ...
+        </div> -->
+    </div>
+
+    <!-- Code Review Form -->
+<form action="{% url 'codementor_ai:code_mentor' %}" method="post">
+    {% csrf_token %}
+    <textarea name="code_input" rows="6" placeholder="Enter code for review"></textarea>
+    <input type="submit" value="Submit" onclick="submitForm()">
+</form>
+<div id="code_review_result">{{ code_review }}</div>
+
+<!-- Code Debug Form -->
+<form action="{% url 'codementor_ai:code_mentor' %}" method="post">
+    {% csrf_token %}
+    <textarea name="debug_input" rows="6" placeholder="Enter code for debugging"></textarea>
+    <input type="submit" value="Submit" onclick="submitForm()">
+</form>
+<div id="code_debug_result">{{ code_debug }}</div>
+
+<!-- Test Case Generation Form -->
+<form action="{% url 'codementor_ai:code_mentor' %}" method="post">
+    {% csrf_token %}
+    <textarea name="test_case_input" rows="6" placeholder="Enter code for test case generation"></textarea>
+    <input type="submit" value="Submit" onclick="submitForm()">
+</form>
+<div id="test_case_generation_result">
+    {% if test_case %}
+        {% for case in test_case %}
+            {{ case }}
+        {% endfor %}
+    {% else %}
+        No test cases generated.
+    {% endif %}
+</div>
+
+</body>
+</html>
