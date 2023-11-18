@@ -68,8 +68,8 @@ def main():
         print(f"Suggested fix:\n{fixed_code}")
 
     # Test case generation
-    gpt_client = GPTClient()
-    problem_statement, test_cases = gpt_client.generate_problem_statement()
+    gpt_client = code_test_case()
+    test_cases = gpt_client(developer_input)
 
     print("Code Review Comment:", comment)
     print("Suggested Fix:", fixed_code)
