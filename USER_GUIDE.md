@@ -10,21 +10,21 @@ Before embarking on your journey with our project, ensure that you have the requ
 
 1. **Clone the Project Repository:** Begin by cloning the project repository using the following command:
 
-```bash
-git clone [https://github.com/kedinaimoke/ai_codecrafters.git](https://github.com/kedinaimoke/ai_codecrafters.git)
-
+```
+git clone https://github.com/kedinaimoke/ai_codecrafters.git
+```
 
 2. **Navigate to the Project Directory:** Once the cloning process is complete, navigate to the project directory using the following command:
 
-bash
+```
 cd ai_codecrafters
-
+```
 
 3. **Install Required Dependencies:** To ensure the project runs smoothly, install the necessary dependencies using the following command:
 
-bash
+```
 pip install -r requirements.txt
-
+```
 
 This command will install all the Python packages required for the project to function correctly.
 
@@ -40,9 +40,9 @@ Our project empowers you to generate comprehensive code reviews, providing valua
 
 2. Execute the following command, replacing "YOUR_CODE_SNIPPET" with the actual code you want to review:
 
-bash
-python code_mentor.py --code_input "YOUR_CODE_SNIPPET"
-
+```
+python main.py --code_input "YOUR_CODE_SNIPPET"
+```
 
 3. The generated code review will be displayed in the terminal window, providing detailed feedback on the provided code.
 
@@ -54,9 +54,9 @@ Generating test cases is crucial for ensuring the correctness and robustness of 
 
 2. Execute the following command, replacing "YOUR_PROBLEM_DESCRIPTION" with a concise description of the problem you want to test:
 
-bash
-python code_mentor.py --test_case_input "YOUR_PROBLEM_DESCRIPTION"
-
+```
+python main.py --test_case_input "YOUR_PROBLEM_DESCRIPTION"
+```
 
 3. A set of test cases covering various aspects of the problem description will be generated and displayed in the terminal window.
 
