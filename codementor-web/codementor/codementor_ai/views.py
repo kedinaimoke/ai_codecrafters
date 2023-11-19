@@ -4,14 +4,13 @@ from dotenv import load_dotenv
 import os
 from codementor_ai.code_review.code_review import generate_comment
 from codementor_ai.code_debug.code_debug import fix_python_code
-from codementor_ai.code_test_case.code_test_case import GPTClient
+from codementor_ai.code_test_case.code_test_case import code_test_case
 
 
 load_dotenv()
 
 api_key = os.getenv("API_KEY")
 
-client = GPTClient()
 
 def code_mentor(request):
     """Handles incoming HTTP requests, processes user input, and renders the corresponding response.
@@ -55,7 +54,7 @@ def code_mentor(request):
             test_case_input = request.POST['test_case_input']
             problem_statement = test_case_input
             try:
-                test_case = client.parse_test_cases(problem_statement)
+                test_case = test_cases(problem_statement)
                 print("Test Case:", test_case)
                 TestCase.objects.create(code_input=test_case_input, test_case=test_case)
                 return render(request, 'index.html', {'test_case': test_case})

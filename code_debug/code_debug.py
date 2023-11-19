@@ -1,17 +1,18 @@
 import openai
 from tqdm import tqdm
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import subprocess
 import sys
 from openai import OpenAI
 
-load_dotenv()
+#load_dotenv()
 
-api_key = os.getenv("API_KEY")
+#api_key = os.getenv("API_KEY")
 
 client = OpenAI(
-    api_key=api_key,
+    api_key="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",
+
 )
 
 

@@ -1,5 +1,4 @@
-from code_review.code_review import (add_code_tags, generate_comment,
-                         create_html_output, get_diff_changes_from_pipeline, main as code_review_main,)
+from code_review.code_review import (add_code_tags, generate_comment, create_html_output, get_diff_changes_from_pipeline, main as code_review_main,)
 from code_test_case.code_test_case import code_test_case
 from code_debug.code_debug import run_python_code, fix_python_code, auto_debug_python
 
@@ -9,6 +8,7 @@ def get_developer_input():
 
     Returns:
         str: The code entered by the developer.
+
     """
     import re
     developer_input = input("Please enter your code:")
@@ -68,12 +68,11 @@ def main():
         print(f"Suggested fix:\n{fixed_code}")
 
     # Test case generation
-    gpt_client = code_test_case()
-    test_cases = gpt_client(developer_input)
+    gpt_client = code_test_case(developer_input)
 
     print("Code Review Comment:", comment)
     print("Suggested Fix:", fixed_code)
-    print("Test Cases:", test_cases)
+    print("Test Cases:", gpt_client)
 
     # Optionally, create an HTML output file with the code review comments
     create_html_output("Code Review", "Reviewing recent changes", [{"diff": diff}], "Code review prompt")
@@ -81,3 +80,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

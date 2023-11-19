@@ -1,13 +1,15 @@
-!pip install openai
+
 
 import openai
 import re
+from dotenv import load_dotenv
+import os
 
 from openai import OpenAI
-
+api_key = os.getenv("API_KEY")
 
 client = OpenAI(
-    api_key="",
+    api_key= api_key,
 )
 
 def run_code(result):
@@ -109,6 +111,6 @@ def code_test_case(code, run = False):
                         )
   answer = response.choices[0].message.content
   if run == False:
-    print(answer)
+    return(answer)
   else:
     run_code(f"{code} \n {answer}")
