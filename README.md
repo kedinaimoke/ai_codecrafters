@@ -26,7 +26,7 @@ CodeMentor AI is designed to integrate seamlessly into developers' environments,
 
 ### Package Installation
 
-To install CodeMentor AI as a package, follow these steps:
+To install CodeMentor AI, follow these steps:
 
 1. Install the necessary dependencies using your preferred package manager.
 
@@ -42,9 +42,10 @@ To install CodeMentor AI as a package, follow these steps:
 
    ```pip install -r requirements.txt```
 
-2. Download the CodeMentor AI package and extract it to the appropriate location.
+   Run the following command where you would input your code for Code Mentor AI to give you appropriate analysis:
 
-3. Import the CodeMentor AI library into your project's code.
+   ```python main.py```
+
 
 ### IDE Extension Installation
 
