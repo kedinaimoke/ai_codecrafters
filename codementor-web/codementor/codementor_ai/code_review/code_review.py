@@ -164,19 +164,9 @@ def get_diff_changes_from_pipeline():
     Returns:
         list: A list of dictionaries containing diff information.
     """
-    # Simulated code change for review
-    simulated_code_change = """
-    diff --git a/example.py b/example.py
-    index abcdef1..1234567 100644
-    --- a/example.py
-    +++ b/example.py
-    @@ -1,5 +1,5 @@
-    def add(a, b):
-    -    return a + b
-    +    return a * b
-    """
-
-    diff_list = [{"diff": simulated_code_change}]
+    piped_input = sys.stdin.read()
+    diffs = piped_input.split("diff --git")
+    diff_list = [{"diff": diff} for diff in diffs if diff]
     return diff_list
 
 def main():
