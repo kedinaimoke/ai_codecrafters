@@ -1,120 +1,64 @@
-import openai
-from tqdm import tqdm
 import os
-#from dotenv import load_dotenv
-import subprocess
-import sys
+from dotenv import load_dotenv
 from openai import OpenAI
+import re
 
-#load_dotenv()
+load_dotenv()
 
-#api_key = os.getenv("API_KEY")
+api_key = os.getenv("API_KEY")
 
 client = OpenAI(
-    api_key="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",
-
+    api_key=api_key,
 )
 
+def run_code(result):
+  pattern = re.compile(r'def\s+(\w+)\s*\(.*?\):\s*\n(.*?)(?=\s*```)', re.DOTALL)
 
-def run_python_code(code):
-    """
-    Executes the provided Python code and returns the output or error message.
-
-    Args:
-        code (str): The Python code to execute.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and the corresponding output or error message.
-    """
-    try:
-        # Execute the code using subprocess
-        output = subprocess.check_output(["python3", "-c", code], stderr=subprocess.STDOUT, text=True)
-
-        return True, output
-    except subprocess.CalledProcessError as e:
-        # Capture the error output
-        error_output = e.output
-
-        return False, error_output
-    except Exception as e:
-        # Handle unexpected exceptions
-        error_output = str(e)
-
-        return False, error_output
+  # Find the match
+  match = pattern.search(result)
 
 
-def fix_python_code(code, error_output):
-    """
-    Utilizes OpenAI's gpt 3.5 turbo engine to generate suggestions for fixing the provided Python code.
+  expected_output = match.group(2).strip()
 
-    Args:
-        code (str): The Python code to fix.
-        error_output (str): The error message associated with the code execution.
+  pattern = re.compile(r'^[ \t]+', re.MULTILINE)
 
-    Returns:
-        str: The suggested fix for the code or an error message if no valid response is received from the model.
-    """
-    prompt = (
-        "Here is Python code and an error message in Terminal:\n\n"
-        f"{code}\n\n{error_output}\n\nPlease fix the code."
-    )
+  # Replace indents with an empty string
+  results = re.sub(pattern, '', expected_output)
+  exec(results)
 
-    try:
-        response = client.chat.completions.create(
-            messages=[
+def fix_python_code(code, run = False):
+  """
+    This is a function that takes in a defunct code as an input and then returns possible solutions to the error.
+
+    --------------------------------------------------------------------------------------------------------------
+
+    Parameters:
+
+    Code - Str. This is the code you are generating a test case for. Insert as a text.
+    run - Bool. If True then the function runs the debug process to see where could possibly
+                be the point of error. If false, then the output is the code. Default 
+                is False.
+
+    ---------------------------------------------------------------------------------------------------------------
+
+  """
+  prompt = '''Please provide a comprehensive analysis of the provided code, including identifying
+            and explaining any potential bugs or errors. For each bug or error, suggest specific 
+            solutions or refactorings to address the issue. Additionally, please consider the overall
+            code structure, clarity, and adherence to best practices. Provide detailed explanations and 
+            justifications for your suggestions.'''
+
+  response = client.chat.completions.create(
+                messages=[
                         {
                             "role": "user",
-                            "content": f"Take a look at the error {error_output} and debug the code {code}",
-                        },
-                        # {
-                        #     "role": "assistant",
-                        #     "content": comment,
-                        # }
+                            "content": f"{prompt} {code}",
+                        }
                     ],
                     model="gpt-3.5-turbo",
-                    )
-
-        if "choices" in response and response["choices"]:
-            return response["choices"][0]["text"]
-        else:
-            return "Unable to get a valid response from the model."
-
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
-
-
-def auto_debug_python():
-    """
-    Continuously prompts the user for Python code, executes it, and provides suggested fixes for any errors encountered.
-    """
-    max_attempts = 5
-
-    while True:
-        # Accept Python code snippet as user input
-        code = input("Enter Python code:\n")
-
-        for attempt in range(1, max_attempts + 1):
-            success, output = run_python_code(code)
-
-            if success:
-                print("The Python script ran successfully!")
-                break
-            else:
-                print(f"Attempt {attempt}: Error encountered while running the script:")
-                print(output)
-
-                # Generate a suggested fix
-                fixed_code = fix_python_code(code, output)
-                print(f"GPT-3.5 turbo suggested fix:\n{fixed_code}\n")
-
-                # Prompt the user to apply the suggested fix
-                apply_fix = input("Do you want to apply the suggested fix? (y/n): ")
-                if apply_fix.lower() == "y":
-                    code = fixed_code
-
-        if not success:
-            print("Maximum number of attempts reached. Please try fixing the script manually or run AutoDebug again.")
-
-
-if __name__ == "__main__":
-    auto_debug_python()
+                        )
+  answer = response.choices[0].message.content
+  if run == False:
+    return(answer)
+  else:
+    run_code(f"{code} \n {answer}")

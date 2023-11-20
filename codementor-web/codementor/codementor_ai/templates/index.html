@@ -302,7 +302,7 @@
 <form action="{% url 'codementor_ai:code_mentor' %}" method="post">
     {% csrf_token %}
     <textarea name="code_input" rows="6" placeholder="Enter code for review"></textarea>
-    <input type="submit" value="Submit" onclick="submitForm()">
+    <input type="submit" value="Submit" onsubmit="submitForm(event)">
 </form>
 <div id="code_review_result">{{ code_review }}</div>
 
@@ -310,7 +310,7 @@
 <form action="{% url 'codementor_ai:code_mentor' %}" method="post">
     {% csrf_token %}
     <textarea name="debug_input" rows="6" placeholder="Enter code for debugging"></textarea>
-    <input type="submit" value="Submit" onclick="submitForm()">
+    <input type="submit" value="Submit" onsubmit="submitForm(event)">
 </form>
 <div id="code_debug_result">{{ code_debug }}</div>
 
@@ -318,7 +318,7 @@
 <form action="{% url 'codementor_ai:code_mentor' %}" method="post">
     {% csrf_token %}
     <textarea name="test_case_input" rows="6" placeholder="Enter code for test case generation"></textarea>
-    <input type="submit" value="Submit" onclick="submitForm()">
+    <input type="submit" value="Submit" onsubmit="submitForm(event)">
 </form>
 <div id="test_case_generation_result">
     {% if test_case %}
@@ -326,9 +326,14 @@
             {{ case }}
         {% endfor %}
     {% else %}
-        No test cases generated.
+        
     {% endif %}
 </div>
+<script>
+    function submitForm(event){
+        event.preventDefault()
+    }
+</script>
 
 </body>
 </html>

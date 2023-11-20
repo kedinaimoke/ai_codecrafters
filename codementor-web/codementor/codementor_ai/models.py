@@ -7,7 +7,7 @@ class CodeMentorBase(models.Model):
   code_input = models.JSONField(default=dict, blank=False)
 
   def __str__(self):
-    words = json.loads(self.code_input_json)['code_input'].split()[5]
+    words = json.loads(self.code_input)['code_input'].split()[5]
     return f"Code Review: {words}"
 
 class CodeReview(CodeMentorBase):

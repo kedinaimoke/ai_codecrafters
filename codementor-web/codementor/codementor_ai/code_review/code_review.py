@@ -7,6 +7,7 @@ import sys
 import webbrowser
 from openai import OpenAI
 from tqdm import tqdm
+import fileinput
 
 load_dotenv()
 
@@ -26,8 +27,9 @@ PROMPT_TEMPLATE = f"""Thorough code reviews should examine the change in detail 
                     Assess the clarity of the title, description, and rationale for the change. Evaluate the code's correctness, 
                     test coverage, and functionality modifications. Verify adherence to coding standards and best practices. 
                     Provide a comprehensive code review of the provided diffs and score the developer out of a 100% mark, 
-                    suggesting improvements and refactorings based on SOLID principles when applicable. Please refrain from 
-                    further responses until the diffs are presented for review."""
+                    suggesting improvements and refactorings based on SOLID principles when applicable. Also state topics based
+                    on the improvements that the developer can read up on and refer to for better developer craftsmanship. Please refrain 
+                    from further responses until the diffs are presented for review."""
 
 def add_code_tags(text):
     """
@@ -65,7 +67,6 @@ def generate_comment(diff, chatbot_context):
     Returns:
         tuple: A tuple containing the generated comment and the updated chatbot context.
     """
-    chatbot_context = []
     chatbot_context.append({
         "role": "user",
         "content": f"Make a code review of the changes made in this diff: {diff}",
@@ -101,7 +102,8 @@ def generate_comment(diff, chatbot_context):
                 continue
 
     chatbot_context = [
-        {"role": "user", "content": f"Make a code review of the changes made in this diff and score the developer's code out of 100: {diff}"},
+        {"role": "user",
+          "content": f"Make a code review of the changes made in this diff and score the developer's code out of 100 while stating areas and topics the developer can read on to improve their skills: {diff}"},
         {"role": "assistant", "content": comment},
     ]
     return comment, chatbot_context
@@ -159,7 +161,8 @@ def create_html_output(title: str, description: str, changes: list, prompt: str)
 
 def get_diff_changes_from_pipeline():
     """
-    Retrieves diff changes from the standard input pipeline. It simulates a code change for review if no actual diff is available.
+    Retrieves diff changes from the standard input pipeline or user input. 
+    It simulates a code change for review if no actual diff is available.
 
     Returns:
         list: A list of dictionaries containing diff information.
@@ -195,3 +198,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# git diff main -- main/code_test_case/code_test_case.py | python code_review.py

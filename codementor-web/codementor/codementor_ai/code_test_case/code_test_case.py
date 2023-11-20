@@ -1,5 +1,3 @@
-
-
 import openai
 import re
 from dotenv import load_dotenv

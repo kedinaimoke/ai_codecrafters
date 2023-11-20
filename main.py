@@ -1,83 +1,101 @@
-from code_review.code_review import (add_code_tags, generate_comment, create_html_output, get_diff_changes_from_pipeline, main as code_review_main,)
+from code_review.code_review import generate_comment
 from code_test_case.code_test_case import code_test_case
-from code_debug.code_debug import run_python_code, fix_python_code, auto_debug_python
+from code_debug.code_debug import fix_python_code
+import string
+import random
 
-def get_developer_input():
+def developer_input():
     """
-    Retrieves the developer's input code from manual input.
-
-    Returns:
-        str: The code entered by the developer.
-
+    Function to get input from the developer, either as code or a file path.
     """
-    import re
-    developer_input = input("Please enter your code:")
-    matches = re.finditer(r"`(.+?)`", developer_input)
+    input_type = input("Enter 'C' for code input or 'F' for file input: ").lower()
 
-    updated_chunks = []
-    last_end = 0
-    for match in matches:
-        updated_chunks.append(developer_input[last_end : match.start()])
-        updated_chunks.append("<b>`{}`<\b>".format(match.group(1)))
-        last_end = match.end()
-    updated_chunks.append(developer_input[last_end:])
-    return "".join(updated_chunks)
-
-
-def generate_diff(base_code, developer_input):
+    if input_type == 'c':
+        code = input("Please enter your Python code: ")
+        return code
+    elif input_type == 'f':
+        file_path = input("Please enter the file path: ")
+        try:
+            with open(file_path, 'r') as file:
+                code = file.read()
+            return code
+        except Exception as e:
+            print(f"Error reading file: {e}")
+            return None
+    else:
+        print("Invalid input type. Please enter 'C' or 'F'.")
+        return None
+    
+def generate_random_filename():
+    """Generates a random filename with the specified format."""
+    random_numbers = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+    return f"{random_numbers}-output.html"
+    
+def create_html_output(comment, test_cases, debug_suggestions):
     """
-    Generates a unified diff between two code snippets.
-
-    Args:
-        base_code (str): The original code.
-        developer_input (str): The code entered by the developer.
-
-    Returns:
-        str: The unified diff.
+    Generates an HTML output file containing code review comments, test cases, and debug suggestions.
     """
-    from difflib import unified_diff
+    random_filename = generate_random_filename()
 
-    base_lines = base_code.splitlines(keepends=True)
-    developer_lines = developer_input.splitlines(keepends=True)
+    html_output = "<html>\n<head>\n<title>CodeMentor AI: Review Report</title>\n</head>\n<body>\n"
 
-    diff = unified_diff(base_lines, developer_lines, lineterm="")
-    return "".join(diff)
+    html_output += "<style>\nbody {\nfont-family: sans-serif;\nfont-size: 16px;\n}\n"
+    html_output += "h1 {\nfont-size: 24px;\nfont-weight: bold;\nmargin-bottom: 10px;\n}\n"
+    html_output += "p {\nmargin-bottom: 5px;\n}\n</style>\n</head>\n<body>\n"
+
+
+    html_output += "<h1>Code Review Comment</h1>\n"
+    html_output += f"<p>{comment}</p>\n"
+
+    html_output += "<h1>Generated Test Cases</h1>\n"
+    html_output += f"<p>{test_cases}</p>\n"
+
+    html_output += "<h1>Debug Suggestions</h1>\n"
+    html_output += f"<p>{debug_suggestions}</p>\n"
+
+    html_output += "</body>\n</html>"
+
+    with open(random_filename, "w") as f:
+        f.write(html_output)
+    
+    print(f"CodeMentor AI has generated your report. File saved as {random_filename}")
 
 
 def main():
-    # Replace these lines with your actual code
-    base_code = """ 
-    # Your base code goes here
-    def example_function():
-        return "Hello, World!"
     """
+    The main function to coordinate the code review, test case generation, and code debugging.
+    """
+    # Get code input from the developer
+    code = developer_input()
 
-    developer_input = get_developer_input()
+    if code is None:
+        return  # Exit if input is invalid
 
-    diff = generate_diff(base_code, developer_input)
+    # Generate code review comment
+    comment, _ = generate_comment(code, [])
 
-    # Code Mentor AI working ...
-    comment, chatbot_context = generate_comment(diff, [])
+    # Print code review comment
+    print("Code Review Comment:")
+    print(comment)
+    print("-" * 50)
 
-    # Debugging
-    success, output = run_python_code(developer_input)
-    fixed_code = None
+    # Generate test cases
+    test_cases = code_test_case(code)
 
-    if not success:
-        fixed_code = fix_python_code(developer_input, output)
-        print(f"Suggested fix:\n{fixed_code}")
+    # Print generated test cases
+    print("Generated Test Cases:")
+    print(test_cases)
+    print("-" * 50)
 
-    # Test case generation
-    gpt_client = code_test_case(developer_input)
 
-    print("Code Review Comment:", comment)
-    print("Suggested Fix:", fixed_code)
-    print("Test Cases:", gpt_client)
+    # Debug code
+    debug_suggestions = fix_python_code(code)
 
-    # Optionally, create an HTML output file with the code review comments
-    create_html_output("Code Review", "Reviewing recent changes", [{"diff": diff}], "Code review prompt")
+    # Print debug suggestions
+    print("Debug Suggestions:")
+    print(debug_suggestions)
 
+    create_html_output(comment, test_cases, debug_suggestions)
 
 if __name__ == "__main__":
     main()
-

@@ -39,9 +39,8 @@ def code_mentor(request):
         elif 'debug_input' in request.POST:
             # Code Debug Logic
             debug_input = request.POST['debug_input']
-            error_output = ""
             try:
-                code_debug = fix_python_code(debug_input, error_output=error_output)
+                code_debug = fix_python_code(debug_input)
                 print(code_debug)
                 CodeDebug.objects.create(code_input=debug_input, code_debug=code_debug)
                 return render(request, 'index.html', {'code_debug': code_debug})
@@ -52,9 +51,8 @@ def code_mentor(request):
         elif 'test_case_input' in request.POST:
             # Test Case Generation Logic
             test_case_input = request.POST['test_case_input']
-            problem_statement = test_case_input
             try:
-                test_case = test_cases(problem_statement)
+                test_case = code_test_case(test_case_input)
                 print("Test Case:", test_case)
                 TestCase.objects.create(code_input=test_case_input, test_case=test_case)
                 return render(request, 'index.html', {'test_case': test_case})
