@@ -41,6 +41,12 @@ To install CodeMentor AI, follow these steps:
    ```
    cd ai_codecrafters
    ```
+
+   Activate the virtual environment using the folllowing command:
+
+   ```
+   codecrafter\Scripts\activate
+   ```
    
    Then install the necessary dependencies:
 
