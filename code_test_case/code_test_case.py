@@ -4,8 +4,10 @@ import openai
 import re
 from dotenv import load_dotenv
 import os
-
 from openai import OpenAI
+
+load_dotenv()
+
 api_key = os.getenv("API_KEY")
 
 client = OpenAI(

@@ -7,7 +7,6 @@ import sys
 import webbrowser
 from openai import OpenAI
 from tqdm import tqdm
-import fileinput
 
 load_dotenv()
 
