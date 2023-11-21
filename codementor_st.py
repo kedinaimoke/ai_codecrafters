@@ -53,14 +53,14 @@ def main():
     """
     The main function to coordinate the code review, test case generation, and code debugging.
     """
-    st.set_page_config(page_title="Code Review App", page_icon="✨", layout="wide", initial_sidebar_state="collapsed")
+    st.set_page_config(page_title="iReview iDebug iTest", page_icon="✨", layout="wide", initial_sidebar_state="collapsed")
 
     st.markdown(
         "<style>body {background-color: #f5f5f5; background-image: url(''); background-size: cover;}</style>",
         unsafe_allow_html=True
     )
 
-    st.markdown("<h1 style='text-align: center; color: #87CEEB;'>Code Review and Debugging App</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #87CEEB;'>CodeMentor AI</h1>", unsafe_allow_html=True)
 
     code = developer_input()
 
